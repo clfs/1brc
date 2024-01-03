@@ -1,6 +1,6 @@
 # obrc
 
-An unoptimized, 2m8s [One Billion Row Challenge](https://www.morling.dev/blog/one-billion-row-challenge/) solution in Go.
+An unoptimized, 2m9s [One Billion Row Challenge](https://www.morling.dev/blog/one-billion-row-challenge/) solution in Go.
 
 (I skipped the output sorting because I'm lazy.)
 
@@ -27,21 +27,21 @@ $ go test -bench=. .
 goos: darwin
 goarch: arm64
 pkg: github.com/clfs/obrc
-BenchmarkGenerateCSV1e3-10       	    5113	    233530 ns/op
-BenchmarkGenerateCSV1e4-10       	     512	   2328699 ns/op
-BenchmarkGenerateCSV1e5-10       	      50	  23345009 ns/op
-BenchmarkGenerateCSV1e6-10       	       5	 232703967 ns/op
-BenchmarkTakeRecordings1e3-10    	    7803	    152262 ns/op
-BenchmarkTakeRecordings1e4-10    	     889	   1345091 ns/op
-BenchmarkTakeRecordings1e5-10    	      93	  12778112 ns/op
-BenchmarkTakeRecordings1e6-10    	       8	 126402234 ns/op
+BenchmarkGenerateCSV1e3-10       	    5095	    234506 ns/op
+BenchmarkGenerateCSV1e4-10       	     512	   2333130 ns/op
+BenchmarkGenerateCSV1e5-10       	      50	  23381521 ns/op
+BenchmarkGenerateCSV1e6-10       	       5	 232976692 ns/op
+BenchmarkTakeRecordings1e3-10    	    7417	    148938 ns/op
+BenchmarkTakeRecordings1e4-10    	     903	   1321701 ns/op
+BenchmarkTakeRecordings1e5-10    	      93	  12592483 ns/op
+BenchmarkTakeRecordings1e6-10    	       9	 124397972 ns/op
 PASS
-ok  	github.com/clfs/obrc	12.131s
+ok  	github.com/clfs/obrc	13.300s
 ```
 
 ```text
 $ go run ./cmd/gen -n 1_000_000_000 > test.csv
 $ time go run ./cmd/stats -input test.csv
 ...
-... 125.79s user 3.53s system 100% cpu 2:08.90 total
+... 126.41s user 3.52s system 100% cpu 2:09.61 total
 ```

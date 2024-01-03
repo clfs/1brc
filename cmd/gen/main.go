@@ -30,7 +30,9 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	if err := obrc.GenerateCSV(os.Stdout, *nFlag); err != nil {
+	w := obrc.NewWriter(os.Stdout)
+
+	if err := obrc.Generate(w, *nFlag); err != nil {
 		log.Fatal(err)
 	}
 }

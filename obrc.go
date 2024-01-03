@@ -10,6 +10,22 @@ import (
 	"strconv"
 )
 
+// NewReader returns a new csv.Reader with recommended settings.
+func NewReader(r io.Reader) *csv.Reader {
+	cr := csv.NewReader(r)
+	cr.Comma = ';'
+	cr.FieldsPerRecord = 2
+	cr.ReuseRecord = true
+	return cr
+}
+
+// NewWriter returns a new csv.Writer with recommended settings.
+func NewWriter(w io.Writer) *csv.Writer {
+	cw := csv.NewWriter(w)
+	cw.Comma = ';'
+	return cw
+}
+
 // Station is a weather station.
 type Station struct {
 	Name     string
@@ -27,32 +43,23 @@ func RandStation() Station {
 	return AllStations[rand.Intn(len(AllStations))]
 }
 
-// GenerateCSV writes n measurements to w.
-func GenerateCSV(w io.Writer, n int) error {
-	cw := csv.NewWriter(w)
-	cw.Comma = ';'
-
+// Generate writes n measurements to w.
+func Generate(w *csv.Writer, n int) error {
 	for i := 0; i < n; i++ {
 		s := RandStation()
 		record := []string{s.Name, fmt.Sprintf("%.1f", s.Measure())}
-		cw.Write(record)
+		w.Write(record)
 	}
-
-	cw.Flush()
-	return cw.Error()
+	w.Flush()
+	return w.Error()
 }
 
-// TakeRecordings computes recordings from a CSV of weather measurements.
-func TakeRecordings(r io.Reader) (map[string]Recording, error) {
-	cr := csv.NewReader(r)
-	cr.Comma = ';'
-	cr.FieldsPerRecord = 2
-	cr.ReuseRecord = true
-
+// TakeRecordings takes a recording for each station.
+func TakeRecordings(r *csv.Reader) (map[string]Recording, error) {
 	m := make(map[string]Recording)
 
 	for {
-		row, err := cr.Read()
+		row, err := r.Read()
 		if err == io.EOF {
 			break
 		}

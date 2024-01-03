@@ -30,7 +30,7 @@ func TestTakeRecordings(t *testing.T) {
 	}
 
 	for _, tc := range cases {
-		got, err := TakeRecordings(strings.NewReader(tc.in))
+		got, err := TakeRecordings(NewReader(strings.NewReader(tc.in)))
 		if err != nil {
 			t.Errorf("%q: %v", tc.in, err)
 		}
@@ -43,8 +43,8 @@ func TestTakeRecordings(t *testing.T) {
 func TestRoundTrip(t *testing.T) {
 	for _, n := range []int{0, 1, 1e3, 1e6} {
 		var buf bytes.Buffer
-		GenerateCSV(&buf, n)
-		_, err := TakeRecordings(strings.NewReader(buf.String()))
+		Generate(NewWriter(&buf), n)
+		_, err := TakeRecordings(NewReader(&buf))
 		if err != nil {
 			t.Errorf("n=%d: %v", n, err)
 		}

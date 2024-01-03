@@ -37,7 +37,7 @@ func main() {
 	}
 	defer f.Close()
 
-	m, err := obrc.TakeRecordings(f)
+	m, err := obrc.TakeRecordings(obrc.NewReader(f))
 	if err != nil {
 		log.Fatal(err)
 	}
