@@ -42,16 +42,16 @@ func GenerateCSV(w io.Writer, n int) error {
 	return cw.Error()
 }
 
-// ComputeStats computes statistics from a CSV.
-func ComputeStats(r io.Reader) (map[string]Stats, error) {
+// TakeRecordings computes recordings from a CSV of weather measurements.
+func TakeRecordings(r io.Reader) (map[string]Recording, error) {
 	cr := csv.NewReader(r)
 	cr.Comma = ';'
 	cr.FieldsPerRecord = 2
 
-	m := make(map[string]Stats)
+	m := make(map[string]Recording)
 
 	for {
-		record, err := cr.Read()
+		row, err := cr.Read()
 		if err == io.EOF {
 			break
 		}
@@ -59,42 +59,55 @@ func ComputeStats(r io.Reader) (map[string]Stats, error) {
 			return nil, err
 		}
 
-		temp, err := strconv.ParseFloat(record[1], 64)
+		measurement, err := strconv.ParseFloat(row[1], 64)
 		if err != nil {
 			return nil, err
 		}
 
-		s := m[record[0]]
-		s.Add(temp)
-		m[record[0]] = s
+		recording, ok := m[row[0]]
+		if !ok {
+			recording = NewRecording(measurement)
+		} else {
+			recording.Add(measurement)
+		}
+		m[row[0]] = recording
 	}
 
 	return m, nil
 }
 
-// Stats contains temperature statistics about a weather station.
-type Stats struct {
-	Min   float64
-	Max   float64
-	Sum   float64
-	Count int
+// Recording stores aggregate statistics about a weather station.
+type Recording struct {
+	min, max, sum float64
+	count         float64
 }
 
-// Add adds a temperature to the stats.
-func (s *Stats) Add(temp float64) {
-	if s.Count == 0 {
-		s.Min = temp
-		s.Max = temp
-	} else {
-		s.Min = min(s.Min, temp)
-		s.Max = max(s.Max, temp)
+// NewRecording starts a new Recording.
+func NewRecording(measurement float64) Recording {
+	return Recording{
+		min:   measurement,
+		max:   measurement,
+		sum:   measurement,
+		count: 1,
 	}
-	s.Sum += temp
-	s.Count++
 }
 
-// Mean returns the mean temperature.
-func (s *Stats) Mean() float64 { return s.Sum / float64(s.Count) }
+// Add adds a measurement to the recording.
+func (r *Recording) Add(measurement float64) {
+	r.min = min(r.min, measurement)
+	r.max = max(r.max, measurement)
+	r.sum += measurement
+	r.count++
+}
+
+// Min returns the minimum measurement.
+func (r *Recording) Min() float64 { return r.min }
+
+// Max returns the maximum measurement.
+func (r *Recording) Max() float64 { return r.max }
+
+// Mean returns the mean measurement.
+func (r *Recording) Mean() float64 { return r.sum / r.count }
 
 // AllStations contains all weather stations.
 var AllStations = []Station{

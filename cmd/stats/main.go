@@ -24,13 +24,13 @@ func main() {
 	}
 	defer f.Close()
 
-	m, err := obrc.ComputeStats(f)
+	m, err := obrc.TakeRecordings(f)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Sorting the results doesn't affect the final time much; skipped it.
 	for k, v := range m {
-		fmt.Printf("%s: %.1f/%.1f/%.1f\n", k, v.Min, v.Mean(), v.Max)
+		fmt.Printf("%s: %.1f/%.1f/%.1f\n", k, v.Min(), v.Mean(), v.Max())
 	}
 }

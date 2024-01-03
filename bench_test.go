@@ -30,46 +30,46 @@ func BenchmarkGenerateCSV1e6(b *testing.B) {
 	}
 }
 
-func BenchmarkComputeStats1e3(b *testing.B) {
+func BenchmarkTakeRecordings1e3(b *testing.B) {
 	var buf bytes.Buffer
 	GenerateCSV(&buf, 1e3)
 	data := buf.Bytes()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		ComputeStats(bytes.NewReader(data))
+		TakeRecordings(bytes.NewReader(data))
 	}
 }
 
-func BenchmarkComputeStats1e4(b *testing.B) {
+func BenchmarkTakeRecordings1e4(b *testing.B) {
 	var buf bytes.Buffer
 	GenerateCSV(&buf, 1e4)
 	data := buf.Bytes()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		ComputeStats(bytes.NewReader(data))
+		TakeRecordings(bytes.NewReader(data))
 	}
 }
 
-func BenchmarkComputeStats1e5(b *testing.B) {
+func BenchmarkTakeRecordings1e5(b *testing.B) {
 	var buf bytes.Buffer
 	GenerateCSV(&buf, 1e5)
 	data := buf.Bytes()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		ComputeStats(bytes.NewReader(data))
+		TakeRecordings(bytes.NewReader(data))
 	}
 }
 
-func BenchmarkComputeStats1e6(b *testing.B) {
+func BenchmarkTakeRecordings1e6(b *testing.B) {
 	var buf bytes.Buffer
 	GenerateCSV(&buf, 1e6)
 	data := buf.Bytes()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		ComputeStats(bytes.NewReader(data))
+		TakeRecordings(bytes.NewReader(data))
 	}
 }

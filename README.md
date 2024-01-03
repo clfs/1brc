@@ -27,21 +27,21 @@ $ go test -bench=. .
 goos: darwin
 goarch: arm64
 pkg: github.com/clfs/obrc
-BenchmarkGenerateCSV1e3-10          4960            233921 ns/op
-BenchmarkGenerateCSV1e4-10           512           2340646 ns/op
-BenchmarkGenerateCSV1e5-10            49          23557021 ns/op
-BenchmarkGenerateCSV1e6-10             5         238529000 ns/op
-BenchmarkComputeStats1e3-10         6564            175773 ns/op
-BenchmarkComputeStats1e4-10          747           1591551 ns/op
-BenchmarkComputeStats1e5-10           76          15301464 ns/op
-BenchmarkComputeStats1e6-10            7         150111482 ns/op
+BenchmarkGenerateCSV1e3-10       	    5054	    237691 ns/op
+BenchmarkGenerateCSV1e4-10       	     506	   2380981 ns/op
+BenchmarkGenerateCSV1e5-10       	      50	  23524732 ns/op
+BenchmarkGenerateCSV1e6-10       	       5	 232802217 ns/op
+BenchmarkTakeRecordings1e3-10    	    6760	    175922 ns/op
+BenchmarkTakeRecordings1e4-10    	     758	   1584696 ns/op
+BenchmarkTakeRecordings1e5-10    	      79	  15280674 ns/op
+BenchmarkTakeRecordings1e6-10    	       7	 150463435 ns/op
 PASS
-ok      github.com/clfs/obrc    12.140s
+ok  	github.com/clfs/obrc	12.240s
 ```
 
 ```text
 $ go run ./cmd/gen -n 1_000_000_000 > test.csv
 $ time go run ./cmd/stats -f test.csv
 ...
-... 150.54s user 3.88s system 100% cpu 2:33.27 total
+... 149.98s user 4.32s system 100% cpu 2:33.41 total
 ```
