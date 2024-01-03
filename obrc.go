@@ -47,6 +47,7 @@ func TakeRecordings(r io.Reader) (map[string]Recording, error) {
 	cr := csv.NewReader(r)
 	cr.Comma = ';'
 	cr.FieldsPerRecord = 2
+	cr.ReuseRecord = true
 
 	m := make(map[string]Recording)
 
