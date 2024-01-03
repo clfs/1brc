@@ -5,20 +5,33 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime/pprof"
 
 	"github.com/clfs/obrc"
 )
 
 func main() {
-	fileFlag := flag.String("f", "", "input file")
+	var (
+		inputFlag      = flag.String("input", "", "input file")
+		cpuprofileFlag = flag.String("cpuprofile", "", "write cpu profile to file")
+	)
 	flag.Parse()
 
-	if *fileFlag == "" {
+	if *inputFlag == "" {
 		flag.Usage()
 		return
 	}
 
-	f, err := os.Open(*fileFlag)
+	if *cpuprofileFlag != "" {
+		f, err := os.Create(*cpuprofileFlag)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+
+	f, err := os.Open(*inputFlag)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,6 +1,6 @@
 # obrc
 
-An unoptimized, ~155 sec. [One Billion Row Challenge](https://www.morling.dev/blog/one-billion-row-challenge/) solution in Go.
+An unoptimized, ~153 sec. [One Billion Row Challenge](https://www.morling.dev/blog/one-billion-row-challenge/) solution in Go.
 
 (I skipped the output sorting because I'm lazy.)
 
@@ -15,7 +15,7 @@ go run ./cmd/gen -n 1000 > test.csv
 Run the solver:
 
 ```text
-go run ./cmd/stats -f test.csv
+go run ./cmd/stats -input test.csv
 ```
 
 ## Benchmark
@@ -41,7 +41,7 @@ ok  	github.com/clfs/obrc	12.240s
 
 ```text
 $ go run ./cmd/gen -n 1_000_000_000 > test.csv
-$ time go run ./cmd/stats -f test.csv
+$ time go run ./cmd/stats -input test.csv
 ...
 ... 149.98s user 4.32s system 100% cpu 2:33.41 total
 ```
