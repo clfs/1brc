@@ -2,6 +2,7 @@ package obrc
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -42,11 +43,14 @@ func TestTakeRecordings(t *testing.T) {
 
 func TestRoundTrip(t *testing.T) {
 	for _, n := range []int{0, 1, 1e3, 1e6} {
-		var buf bytes.Buffer
-		Generate(NewWriter(&buf), n)
-		_, err := TakeRecordings(NewReader(&buf))
-		if err != nil {
-			t.Errorf("n=%d: %v", n, err)
-		}
+		t.Run(fmt.Sprintf("%d", n), func(t *testing.T) {
+			var buf bytes.Buffer
+			if err := Generate(NewWriter(&buf), n); err != nil {
+				t.Fatalf("Generate: %v", err)
+			}
+			if _, err := TakeRecordings(NewReader(&buf)); err != nil {
+				t.Errorf("TakeRecordings: %v", err)
+			}
+		})
 	}
 }
