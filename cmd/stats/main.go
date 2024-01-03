@@ -31,6 +31,6 @@ func main() {
 
 	// Sorting the results doesn't affect the final time much; skipped it.
 	for k, v := range m {
-		fmt.Printf("%s: %.1f/%.1f/%.1f\n", k, v.Min, v.Max, v.Mean())
+		fmt.Printf("%s: %.1f/%.1f/%.1f\n", k, v.Min, v.Mean(), v.Max)
 	}
 }
